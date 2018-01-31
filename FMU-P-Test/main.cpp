@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 		hard.printData();
 
 		deal.filtData();
-		//deal.printFiltData();
+		deal.printFiltData();
 
 		deal.dBmData();
 		deal.printdBmData();
