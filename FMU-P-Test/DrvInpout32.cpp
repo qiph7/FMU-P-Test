@@ -14,10 +14,6 @@ CDllDrvInpout32::CDllDrvInpout32()
 		exit(1);
 		//return;
 	}
-	std::cout << "获取Inpout32.dll成功" << m_hDll << std::endl;
 	m_pfnOut32 = (Out32)GetProcAddress(m_hDll,_T("Out32"));
 	m_pfnInp32 = (Inp32)GetProcAddress(m_hDll,_T("Inp32"));
-	std::cout << m_pfnOut32 << std::endl;
-	std::cout << m_pfnOut32 << std::endl;
-	system("pause");
 }
