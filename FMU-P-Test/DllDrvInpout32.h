@@ -12,6 +12,10 @@ class CDllDrvInpout32
 {
 public:
 	CDllDrvInpout32();
+
+	BOOL setFreq(short freq);
+
+private:
 	Out32 m_pfnOut32;
 	Inp32 m_pfnInp32;
 };

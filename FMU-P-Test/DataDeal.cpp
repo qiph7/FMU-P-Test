@@ -1,18 +1,20 @@
 #include "DataDeal.h"
-#include <iostream>
-#include <iomanip>
+
+using namespace std;
 
 CDataDeal::CDataDeal()
 {
-	m_fAK[0] = 84;
-	m_fAK[1] = 96;
-	m_fAK[2] = 109;
-	m_fAK[3] = 156;
-	m_fAK[4] = 171;
-	m_fKK[0] = ( m_fAK[1] - m_fAK[0] ) / 10;
-	m_fKK[1] = ( m_fAK[2] - m_fAK[1] ) / 10;
-	m_fKK[2] = ( m_fAK[3] - m_fAK[2] ) / 30;
-	m_fKK[3] = ( m_fAK[4] - m_fAK[3] ) / 10;
+	readBiaoding();
+
+	// 计算samTodBm转换使用的系数
+	m_fKK.push_back( ( m_fAK[1] - m_fAK[0] ) / 10 );
+	m_fKK.push_back( ( m_fAK[2] - m_fAK[1] ) / 10 );
+	m_fKK.push_back( ( m_fAK[3] - m_fAK[2] ) / 30 );
+	m_fKK.push_back( ( m_fAK[4] - m_fAK[3] ) / 10 );
+	//cout << m_fKK[0] << endl;
+	//cout << m_fKK[1] << endl;
+	//cout << m_fKK[2] << endl;
+	//cout << m_fKK[3] << endl;
 }
 
 //CDataDeal::~CDataDeal()
@@ -87,16 +89,6 @@ FLOAT CDataDeal::samTodBm(FLOAT sam)
 	}
 		
 	return dBm;
-	//Select Case (Sam)
- //       Case Is > Ak2(4)
- //       SamTodBm = (Sam - Ak2(4)) / Kk2(4) - 30 + RE272
- //       Case Ak2(3) To Ak2(4)
- //       SamTodBm = (Sam - Ak2(3)) / Kk2(3) - 60 + RE272
- //       Case Ak2(2) To (Ak2(3) - 0.0001)
- //       SamTodBm = (Sam - Ak2(2)) / Kk2(2) - 70 + RE272
- //       Case Is < Ak2(2)
- //       SamTodBm = (Sam - Ak2(1)) / Kk2(1) - 80 + RE272
- //   End Select
 }
 
 void CDataDeal::printFiltData()
@@ -123,4 +115,32 @@ void CDataDeal::printdBmData()
 		}
 		std::cout << std::endl;
 	}
+}
+
+BOOL CDataDeal::readBiaoding()
+{
+	ifstream file("./ini/biaoding.ini");
+	if( !file.is_open() )
+	{
+		cerr << "can not open biaoding.ini" << endl;
+		system("pause");
+		return FALSE;
+	}
+
+	string line;
+	FLOAT val;
+	char ch;
+	if (getline(file, line))
+	{
+		istringstream str(line);
+		for (int i = 0; i < 5; ++i)
+		{
+			if (str >> val)
+				m_fAK.push_back(val);
+			str >> ch;	// 跳过逗号
+			//cout << m_fAK[i] << endl;
+		}
+	}
+	file.close();
+	return TRUE;
 }

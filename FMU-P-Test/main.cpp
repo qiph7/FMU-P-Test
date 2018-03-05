@@ -23,7 +23,15 @@ int main(int argc, char* argv[])
 
 	std::cout << "采集卡初始化开始" << std::endl;
 	short nDevInfo[MAX_USB_DEV_NUMBER];
+	for (int i = 0; i < MAX_USB_DEV_NUMBER; i++) {
+		nDevInfo[i] = 0;
+	}
 	hard.m_nDeviceNum = dsoHTSearchDevice(nDevInfo);
+	for (int i = 0; i < MAX_USB_DEV_NUMBER; i++) {
+		std::cout << nDevInfo[i] << "\t";
+	}
+	system("pause");
+
 	if(hard.m_nDeviceNum > 0)
 	{
 		hard.Init();
@@ -37,8 +45,8 @@ int main(int argc, char* argv[])
 
 	printDevInf(hard);
 
-	CDllDrvInpout32 inpout;
-	(*(inpout.m_pfnOut32))(LPT_DATA_ADDR, 0x0);
+	//CDllDrvInpout32 inpout;
+	//inpout.setFreq(0x0);
 
 	int i=0;
 	CDataDeal deal;

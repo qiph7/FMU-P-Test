@@ -1,5 +1,11 @@
 #include <Windows.h>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
 #include <vector>
+#include <sstream>
+
 #include "Hard.h"
 
 #if _MSC_VER > 1000
@@ -19,8 +25,8 @@ public:
 	static USHORT m_nDataSam[MAX_CH_NUM][NUM_WINDOW];
 	static FLOAT  m_fDatadBm[MAX_CH_NUM][NUM_WINDOW];
 
-	FLOAT m_fAK[5];
-	FLOAT m_fKK[4];
+	std::vector<FLOAT> m_fAK;
+	std::vector<FLOAT> m_fKK;
 
 public:
 	void filtData();
@@ -28,4 +34,7 @@ public:
 	FLOAT samTodBm(FLOAT sam);
 	void printFiltData();
 	void printdBmData();
+
+private:
+	BOOL readBiaoding();
 };
